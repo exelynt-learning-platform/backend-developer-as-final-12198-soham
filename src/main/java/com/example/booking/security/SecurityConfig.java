@@ -51,17 +51,17 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
+                        //public
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
-                        // Resource authorization rules
+
                         .requestMatchers(HttpMethod.GET, "/resources/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST, "/resources/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/resources/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/resources/**").hasRole("ADMIN")
 
-                        // Reservation authorization rules (ADMIN and USER can access endpoints; fine-grained ownership is checked in service)
+
                         .requestMatchers("/reservations/**").hasAnyRole("ADMIN", "USER")
 
                         .anyRequest().authenticated()
