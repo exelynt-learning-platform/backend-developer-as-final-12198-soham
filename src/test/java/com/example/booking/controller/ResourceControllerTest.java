@@ -145,7 +145,7 @@ class ResourceControllerTest {
     @Test
     @DisplayName("Should allow ADMIN to delete resource")
     void deleteResource_Admin_Success() throws Exception {
-        // First create a resource to delete
+
         ResourceRequest createReq = ResourceRequest.builder()
                 .name("Temporary Room")
                 .description("To be deleted")

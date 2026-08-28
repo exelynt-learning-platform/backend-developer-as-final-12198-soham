@@ -51,7 +51,7 @@ class ReservationControllerTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        // Ensure user2 exists for cross-user security isolation testing
+
         if (!userRepository.existsByUsername("user2")) {
             userRepository.save(User.builder()
                     .username("user2")
@@ -177,7 +177,7 @@ class ReservationControllerTest {
         JsonNode jsonNode = objectMapper.readTree(createResult.getResponse().getContentAsString());
         long reservationId = jsonNode.get("id").asLong();
 
-        // User 2 attempts to retrieve User 1's reservation
+
         mockMvc.perform(get("/reservations/" + reservationId)
                         .header("Authorization", user2Token))
                 .andExpect(status().isForbidden())
