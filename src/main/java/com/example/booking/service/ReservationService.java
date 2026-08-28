@@ -71,7 +71,7 @@ public class ReservationService {
         User currentUser = getAuthenticatedUser();
         Long userIdFilter = (currentUser.getRole() == Role.ADMIN) ? null : currentUser.getId();
 
-        // Validate sort properties
+
         Pageable validatedPageable = validatePageable(pageable);
 
         Specification<Reservation> spec = ReservationSpecification.filterReservations(
@@ -100,7 +100,7 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation not found with ID: " + id));
 
-        // Ownership enforcement
+
         if (currentUser.getRole() != Role.ADMIN && !reservation.getUser().getId().equals(currentUser.getId())) {
             throw new ForbiddenException("Access Denied: You do not have permission to view this reservation");
         }
@@ -111,12 +111,12 @@ public class ReservationService {
     public ReservationResponse createReservation(ReservationCreateRequest request) {
         User currentUser = getAuthenticatedUser();
 
-        // Validate time range
+
         if (request.getStartTime().isAfter(request.getEndTime()) || request.getStartTime().isEqual(request.getEndTime())) {
             throw new BadRequestException("startTime must be before endTime");
         }
 
-        // Validate resource existence
+
         Resource resource = resourceRepository.findById(request.getResourceId())
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with ID: " + request.getResourceId()));
 
@@ -138,17 +138,17 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation not found with ID: " + id));
 
-        // Ownership enforcement
+
         if (currentUser.getRole() != Role.ADMIN && !reservation.getUser().getId().equals(currentUser.getId())) {
             throw new ForbiddenException("Access Denied: You do not have permission to update this reservation");
         }
 
-        // Validate time range
+
         if (request.getStartTime().isAfter(request.getEndTime()) || request.getStartTime().isEqual(request.getEndTime())) {
             throw new BadRequestException("startTime must be before endTime");
         }
 
-        // Validate resource existence
+
         Resource resource = resourceRepository.findById(request.getResourceId())
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found with ID: " + request.getResourceId()));
 
@@ -167,7 +167,6 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation not found with ID: " + id));
 
-        // Ownership enforcement
         if (currentUser.getRole() != Role.ADMIN && !reservation.getUser().getId().equals(currentUser.getId())) {
             throw new ForbiddenException("Access Denied: You do not have permission to delete this reservation");
         }
