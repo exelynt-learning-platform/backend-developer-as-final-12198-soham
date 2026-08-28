@@ -72,7 +72,7 @@ public class ResourceService {
                 .name(resource.getName())
                 .description(resource.getDescription())
                 .location(resource.getLocation())
-                .available(resource.getAvailable() != null ? resource.getAvailable() : resource.isAvailable())
+                .available(resource.isAvailable())
                 .build();
     }
 }
